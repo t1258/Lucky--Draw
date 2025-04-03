@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Draw - قسمت آزمائیں</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background: url('https://source.unsplash.com/random/1920x1080?luck') no-repeat center center/cover;
+            color: white;
+            line-height: 1.5;
+        }
+        input, button {
+            margin: 10px;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background: #ffcc00;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .coupon {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            color: black;
+            font-weight: bold;
+        }
+        .whatsapp-link {
+            color: green;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+        }
+        .payment {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .price {
+            font-size: 22px;
+            margin: 15px 0;
+            font-weight: bold;
+            background: rgba(255, 165, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .winner-announcement {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background: rgba(255, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        .product-image {
+            margin: 15px auto;
+            display: block;
+            max-width: 300px;
+            border-radius: 10px;
+        }
+
+        /* Blinking effect for headings */
+        @keyframes blink {
+            0% { color: #ffcc00; visibility: visible; }
+            50% { color: #ff0000; visibility: visible; }
+            100% { color: #ffcc00; visibility: visible; }
+        }
+
+        /* Apply the animation to the headings */
+        h1 {
+            animation: blink 1.5s linear infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Game of Luck – Try Your Fortune for Just $5!</h1>
+    <h1>لکی ڈرا – اپنی قسمت آزمائیں صرف $5 میں!</h1>
+    
+    <div class="info">
+        <p>We are excited to introduce our Lucky Draw! Here’s how it works:</p>
+        <p>ہم آپ کے لیے لکی ڈرا لے کر آئے ہیں! طریقہ درج ذیل ہے:</p>
+        <ul>
+            <li>We have numbers available from 1 to 100. (ہمارے پاس 1 سے 100 تک کے نمبر دستیاب ہیں۔)</li>
+            <li>Each number costs $5 to book. (ہر نمبر $5 میں بک کیا جا سکتا ہے۔)</li>
+            <li>Once a number is booked, it will no longer be available. (بک ہونے والا نمبر دوبارہ دستیاب نہیں ہوگا۔)</li>
+            <li>After 30 days, a lucky draw will determine the winner. (30 دن بعد جیتنے والے کا اعلان ہوگا۔)</li>
+        </ul>
+        <p>Try your luck and secure your number today! (آج ہی اپنی قسمت آزمائیں!)</p>
+    </div>
+    
+    <input type="file" id="productImage" accept="image/*" onchange="loadImage(event)">
+    <br>
+    <img id="imagePreview" src="" alt="Lucky Draw Prize" class="product-image">
+    
+    <div class="price">Each Coupon Price: $5 | ہر کوپن کی قیمت: $5</div>
+    
+    <input type="text" id="name" placeholder="Enter Your Name | اپنا نام درج کریں">
+    <input type="number" id="number" placeholder="Choose Lucky Number (1-100) | لکی نمبر منتخب کریں" min="1" max="100">
+    <button onclick="purchaseCoupon()">Purchase Coupon | کوپن خریدیں</button>
+    
+    <h2>Booked Coupons | بک شدہ کوپن</h2>
+    <div id="bookedCoupons"></div>
+    
+    <h2>Payment Method | ادائیگی کا طریقہ</h2>
+    <div class="payment">
+        1. Easypaisa: 03325120678<br>
+        2. On Cash Payment Available | نقد ادائیگی دستیاب ہے
+    </div>
+    
+    <div class="winner-announcement">Winner will be announced on the last day of the month! | جیتنے والے کا اعلان مہینے کے آخری دن ہوگا!</div>
+    
+    <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" class="whatsapp-link" target="_blank">Live WhatsApp Support | لائیو واٹس ایپ سپورٹ</a>
+
+    <script>
+        function loadImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
+        let bookedCoupons = [];
+        function purchaseCoupon() {
+            let name = document.getElementById('name').value;
+            let number = parseInt(document.getElementById('number').value);
+            if (!name || isNaN(number) || number < 1 || number > 100) {
+                alert("Please enter a valid name and a number between 1-100. | براہ کرم درست نام اور 1-100 کے درمیان نمبر درج کریں۔");
+                return;
+            }
+            if (bookedCoupons.some(coupon => coupon.number === number)) {
+                alert("This lucky number is already booked! | یہ نمبر پہلے ہی بک چکا ہے!");
+                return;
+            }
+            let newCoupon = { name, number };
+            bookedCoupons.push(newCoupon);
+            document.getElementById('bookedCoupons').innerHTML += `<div class='coupon'><b>${number}</b><br>${name}</div>`;
+            document.getElementById('name').value = "";
+            document.getElementById('number').value = "";
+        }
+    </script>
+</body>
+</html>
